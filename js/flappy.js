@@ -75,7 +75,7 @@ function Yoda (alturaJogo) {
   let voando = false
 
   this.elemento = novoElemento('img', 'baby-yoda')
-  this.elemento.src = 'img/baby-yoda.png'
+  this.elemento.src = 'img/Yoda.png'
 
   this.getY = () => parseInt(this.elemento.style.bottom.split('px')[0])
   this.setY = y => this.elemento.style.bottom = `${y}px`
@@ -98,9 +98,7 @@ function Yoda (alturaJogo) {
 
   this.setY(alturaJogo / 2)
 }
-// const barreiras = new Barreiras(700, 1200, 300, 500)
-// const yoda = new Yoda(700)
-// const areaDoJogo = document.querySelector('[wm-flappy]')
+
 
 function Progresso() {
   this.elemento = novoElemento('span', 'progresso')
@@ -109,6 +107,9 @@ function Progresso() {
   }
   this.atualizarPontos(0)
 }
+// const barreiras = new Barreiras(700, 1200, 300, 500)
+// const yoda = new Yoda(700)
+// const areaDoJogo = document.querySelector('[wm-flappy]')
 
 // areaDoJogo.appendChild(yoda.elemento)
 // areaDoJogo.appendChild(new Progresso().elemento)
@@ -118,18 +119,18 @@ function Progresso() {
 //   yoda.animar()
 // }, 20)
 
-function estaoSobrePostos(elementoA, elementoB) {
-  const a = elementoA.getBoundingClientRect()
-  const b = elementoB.getBoundingClientRect()
+// function estaoSobrePostos(elementoA, elementoB) {
+//   const a = elementoA.getBoundingClientRect()
+//   const b = elementoB.getBoundingClientRect()
 
-  const horizontal = a.left + a.width >= b.left && b.left + b.width >= a.left
+//   const horizontal = a.left + a.width >= b.left && b.left + b.width >= a.left
 
-  const vertical = a.top + a.height >= b.top && b.top + b.height >= a.top
-  console.log(horizontal, 'horizontal')
-  console.log(' vertical', vertical)
+//   const vertical = a.top + a.height >= b.top && b.top + b.height >= a.top
+//   console.log(horizontal, 'horizontal')
+//   console.log(' vertical', vertical)
 
-  return horizontal && vertical
-}
+//   return horizontal && vertical
+// }
 
 function colidiu(yoda, barreiras){
   let colidiu = false
@@ -150,25 +151,29 @@ function FlappyYoda() {
   const areaDoJogo = document.querySelector('[wm-flappy]')
   const altura = areaDoJogo.clientHeight
   const largura = areaDoJogo.clientWidth
+  
 
   const progresso = new Progresso()
+  
+  
   const barreiras = new Barreiras(altura, largura, 200, 400,
     () => progresso.atualizarPontos(++pontos))
-    const yoda = new Yoda(altura)
-    areaDoJogo.appendChild(progresso.elemento)
-    areaDoJogo.appendChild(yoda.elemento)
-    barreiras.pares.forEach(par => areaDoJogo.appendChild(par.elemento))
+    
+  const yoda = new Yoda(altura)
+  areaDoJogo.appendChild(progresso.elemento)
+  areaDoJogo.appendChild(yoda.elemento)
+  barreiras.pares.forEach(par => areaDoJogo.appendChild(par.elemento))
 
-    this.start = () => {
-      const temporizador  = setInterval(() => {
-        barreiras.animar()
-        yoda.animar()
 
-        if (colidiu(yoda, barreiras)) {
-          clearInterval(temporizador)
-        }
+  const temporizador  = setInterval(() => {
+    barreiras.animar()
+    yoda.animar()
 
-      }, 20)
+    if (colidiu(yoda, barreiras)) {
+      clearInterval(temporizador)
     }
+
+  }, 20)
+    
 }
 new FlappyYoda().start
