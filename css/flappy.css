@@ -12,8 +12,33 @@ body {
 
 .container {
   display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
+  justify-content: center;
+  align-items: center; 
+}
+
+.titleYoda {
+  position: absolute; 
+  margin-top: 30px;
+  margin-right: 60%;
+  font-family: Audiowide;
+  color: aliceblue;
+  top: 0;
+  
+
+}
+.btnatualizar {
+  position: absolute; 
+  top: 0;
+  margin: 15px;
+  height: 50px;
+  width: 120px;
+  border-radius: 20cm;
+  margin-top: 25px;
+  font-family: Audiowide;
+  color: aliceblue;
+  background-color: #639301;
+  border-color: aliceblue;
+
 }
 
 [wm-flappy] {
@@ -23,6 +48,7 @@ body {
   height: 700px;
   width: 1200px;
   margin: 15px;
+  margin-top: 100px;
   background-color: deepskyblue;
   overflow: hidden;
 }
