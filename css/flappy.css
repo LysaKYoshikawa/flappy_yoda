@@ -4,13 +4,20 @@
 
 body {
   font-family: "Audiowide", sans-serif;
-  src: url('/fonts/VT323-Regular.ttf');
   color: aliceblue;
   background-color: rgb(1, 36, 71);
+  
 
 }
 
+.container {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+}
+
 [wm-flappy] {
+  display: flex;
   position: relative;
   border: 5px solid dodgerblue;
   height: 700px;
@@ -22,7 +29,7 @@ body {
 
 .baby-yoda {
   position: absolute;
-  width: 60px;
+  width: 80px;
   left: calc(50% - 30px);
   
 }
