@@ -23,9 +23,9 @@ body {
   font-family: Audiowide;
   color: aliceblue;
   top: 0;
-  
 
 }
+
 .btnatualizar {
   position: absolute; 
   top: 0;
@@ -55,7 +55,7 @@ body {
 
 .baby-yoda {
   position: absolute;
-  width: 80px;
+  width: 50px;
   left: calc(50% - 30px);
   
 }
