@@ -15,10 +15,6 @@ function Barreira(reversa = false){
   this.setAltura = altura => corpo.style.height = `${altura}px`
 }
 
-// const b = new Barreira(false)
-// b.setAltura(200)
-// document.querySelector('[wm-flappy]').appendChild(b.elemento)
-
 function ParDeBarreiras(altura, abertura, x) {
   this.elemento = novoElemento('div', 'par-de-barreiras')
 
@@ -43,8 +39,6 @@ function ParDeBarreiras(altura, abertura, x) {
   this.setX(x)
 }
 
-// const b = new ParDeBarreiras(700, 200, 400)
-// document.querySelector('[wm-flappy]').appendChild(b.elemento)
 
 function Barreiras(altura, largura, abertura, espaco, notificarPonto) {
   this.pares = [
@@ -107,30 +101,20 @@ function Progresso() {
   }
   this.atualizarPontos(0)
 }
-// const barreiras = new Barreiras(700, 1200, 300, 500)
-// const yoda = new Yoda(700)
-// const areaDoJogo = document.querySelector('[wm-flappy]')
 
-// areaDoJogo.appendChild(yoda.elemento)
-// areaDoJogo.appendChild(new Progresso().elemento)
-// barreiras.pares.forEach(par => areaDoJogo.appendChild(par.elemento))
-// setInterval(() => {
-//   barreiras.animar()
-//   yoda.animar()
-// }, 20)
 
-// function estaoSobrePostos(elementoA, elementoB) {
-//   const a = elementoA.getBoundingClientRect()
-//   const b = elementoB.getBoundingClientRect()
+function estaoSobrePostos(elementoA, elementoB) {
+  const a = elementoA.getBoundingClientRect()
+  const b = elementoB.getBoundingClientRect()
 
-//   const horizontal = a.left + a.width >= b.left && b.left + b.width >= a.left
+  const horizontal = a.left + a.width >= b.left && b.left + b.width >= a.left
 
-//   const vertical = a.top + a.height >= b.top && b.top + b.height >= a.top
-//   console.log(horizontal, 'horizontal')
-//   console.log(' vertical', vertical)
+  const vertical = a.top + a.height >= b.top && b.top + b.height >= a.top
+  console.log(horizontal, 'horizontal')
+  console.log(' vertical', vertical)
 
-//   return horizontal && vertical
-// }
+  return horizontal && vertical
+}
 
 function colidiu(yoda, barreiras){
   let colidiu = false
