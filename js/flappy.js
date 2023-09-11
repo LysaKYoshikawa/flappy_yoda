@@ -1,163 +1,164 @@
-function novoElemento(tagName, className) {
-  const elem = document.createElement(tagName)
-  elem.className = className
-  return elem
+function newElement(tagName, className) {
+  const elem = document.createElement(tagName);
+  elem.className = className;
+  return elem;
 }
 
-function Barreira(reversa = false){
-  this.elemento = novoElemento('div', 'barreira')
+class Barrier {
+  constructor(reverse = false) {
+    this.element = newElement('div', 'barrier');
 
-  const borda = novoElemento('div', 'borda')
-  const corpo = novoElemento('div', 'corpo')
-  this.elemento.appendChild(reversa ? corpo : borda)
-  this.elemento. appendChild(reversa ? borda : corpo)
+    const border = newElement('div', 'border');
+    const body = newElement('div', 'body');
+    this.element.appendChild(reverse ? body : border);
+    this.element.appendChild(reverse ? border : body);
 
-  this.setAltura = altura => corpo.style.height = `${altura}px`
-}
-
-function ParDeBarreiras(altura, abertura, x) {
-  this.elemento = novoElemento('div', 'par-de-barreiras')
-
-  this.superior = new Barreira(true)
-  this.inferior = new Barreira(false)
-
-  this.elemento.appendChild(this.superior.elemento)
-  this.elemento.appendChild(this.inferior.elemento)
-
-  this.sortearAbertura = () => {
-    const alturaSuperior = Math.random() * (altura - abertura)
-    const alturaInferior = altura - abertura - alturaSuperior
-    this.superior.setAltura(alturaSuperior)
-    this.inferior.setAltura(alturaInferior)
+    this.setHeight = height => body.style.height = `${height}px`;
   }
-
-  this.getX = () => parseInt(this.elemento.style.left.split('px')[0])
-  this.setX = x => this.elemento.style.left = `${x}px`
-  this.getLargura = () => this.elemento.clientWidth
-
-  this.sortearAbertura()
-  this.setX(x)
 }
 
+class PairOfBarriers {
+  constructor(height, opening, x) {
+    this.element = newElement('div', 'pair-of-barriers');
 
-function Barreiras(altura, largura, abertura, espaco, notificarPonto) {
-  this.pares = [
-    new ParDeBarreiras(altura, abertura, largura),
-    new ParDeBarreiras(altura, abertura, largura + espaco),
-    new ParDeBarreiras(altura, abertura, largura + espaco * 2),
-    new ParDeBarreiras(altura, abertura, largura + espaco * 3)
-  ]
+    this.upper = new Barrier(true);
+    this.lower = new Barrier(false);
 
-  const deslocamento = 3
-  this.animar = () => {
-    this.pares.forEach(par => {
-      par.setX(par.getX() - deslocamento)
+    this.element.appendChild(this.upper.element);
+    this.element.appendChild(this.lower.element);
 
-      if (par.getX() < -par.getLargura()) {
-        par.setX(par.getX() + espaco * this.pares.length)
-        par.sortearAbertura()
+    this.randomizeOpening = () => {
+      const upperHeight = Math.random() * (height - opening);
+      const lowerHeight = height - opening - upperHeight;
+      this.upper.setHeight(upperHeight);
+      this.lower.setHeight(lowerHeight);
+    }
+
+    this.getX = () => parseInt(this.element.style.left.split('px')[0]);
+    this.setX = x => this.element.style.left = `${x}px`;
+    this.getWidth = () => this.element.clientWidth;
+
+    this.randomizeOpening();
+    this.setX(x);
+  }
+}
+
+class Barriers {
+  constructor(height, width, opening, space, notifyPoint) {
+    this.pairs = [
+      new PairOfBarriers(height, opening, width),
+      new PairOfBarriers(height, opening, width + space),
+      new PairOfBarriers(height, opening, width + space * 2),
+      new PairOfBarriers(height, opening, width + space * 3)
+    ];
+
+    const displacement = 3;
+    this.animate = () => {
+      this.pairs.forEach(pair => {
+        pair.setX(pair.getX() - displacement);
+
+        if (pair.getX() < -pair.getWidth()) {
+          pair.setX(pair.getX() + space * this.pairs.length);
+          pair.randomizeOpening();
+        }
+
+        const middle = width / 2;
+        const crossedMiddle = pair.getX() + displacement >= middle
+          && pair.getX() < middle;
+        if (crossedMiddle) notifyPoint();
+      });
+    }
+  }
+}
+
+class Yoda {
+  constructor(gameHeight) {
+    let flying = false;
+
+    this.element = newElement('img', 'baby-yoda');
+    this.element.src = 'img/Yoda.png';
+
+    this.getY = () => parseInt(this.element.style.bottom.split('px')[0]);
+    this.setY = y => this.element.style.bottom = `${y}px`;
+
+    window.onkeydown = e => flying = true;
+    window.onkeyup = e => flying = false;
+
+    this.animate = () => {
+      const newY = this.getY() + (flying ? 8 : -5);
+      const maxHeight = gameHeight - this.element.clientHeight;
+
+      if (newY <= 0) {
+        this.setY(0);
+      } else if (newY >= maxHeight) {
+        this.setY(maxHeight);
+      } else {
+        this.setY(newY);
       }
-
-      const meio = largura / 2
-      const cruzouOMeio = par.getX() + deslocamento >=  meio 
-        && par.getX() < meio
-      if (cruzouOMeio) notificarPonto()
-    })
-  }
-}
-function Yoda (alturaJogo) {
-  let voando = false
-
-  this.elemento = novoElemento('img', 'baby-yoda')
-  this.elemento.src = 'img/Yoda.png'
-
-  this.getY = () => parseInt(this.elemento.style.bottom.split('px')[0])
-  this.setY = y => this.elemento.style.bottom = `${y}px`
-
-  window.onkeydown = e => voando = true
-  window.onkeyup = e => voando = false
-
-  this.animar = () => {
-    const novoY = this.getY() + (voando ? 8 : -5)
-    const alturaMaxima = alturaJogo - this.elemento.clientHeight
-
-    if (novoY <= 0){
-      this.setY(0)
-    }else if (novoY >= alturaMaxima) {
-      this.setY(alturaMaxima)
-    } else {
-      this.setY(novoY)
     }
+
+    this.setY(gameHeight / 2);
   }
-
-  this.setY(alturaJogo / 2)
 }
 
-
-function Progresso() {
-  this.elemento = novoElemento('span', 'progresso')
-  this.atualizarPontos = pontos => {
-    this.elemento.innerHTML = pontos
-  }
-  this.atualizarPontos(0)
-}
-
-
-function estaoSobrePostos(elementoA, elementoB) {
-  const a = elementoA.getBoundingClientRect()
-  const b = elementoB.getBoundingClientRect()
-
-  const horizontal = a.left + a.width >= b.left && b.left + b.width >= a.left
-
-  const vertical = a.top + a.height >= b.top && b.top + b.height >= a.top
-  console.log(horizontal, 'horizontal')
-  console.log(' vertical', vertical)
-
-  return horizontal && vertical
-}
-
-function colidiu(yoda, barreiras){
-  let colidiu = false
-  barreiras.pares.forEach(ParDeBarreiras => {
-    if (!colidiu) {
-      const superior = ParDeBarreiras.superior.elemento
-      const inferior = ParDeBarreiras.inferior.elemento
-      colidiu = estaoSobrePostos(yoda.elemento, superior)
-       || estaoSobrePostos(yoda.elemento, inferior)
+class Progress {
+  constructor() {
+    this.element = newElement('span', 'progress');
+    this.updatePoints = points => {
+      this.element.innerHTML = points;
     }
-  })
-  return colidiu
+    this.updatePoints(0);
+  }
+}
+
+function areOverlapping(elementA, elementB) {
+  const a = elementA.getBoundingClientRect();
+  const b = elementB.getBoundingClientRect();
+
+  const horizontal = a.left + a.width >= b.left && b.left + b.width >= a.left;
+
+  const vertical = a.top + a.height >= b.top && b.top + b.height >= a.top;
+
+  return horizontal && vertical;
+}
+
+function collided(yoda, barriers) {
+  let collided = false;
+  barriers.pairs.forEach(PairOfBarriers => {
+    if (!collided) {
+      const upper = PairOfBarriers.upper.element;
+      const lower = PairOfBarriers.lower.element;
+      collided = areOverlapping(yoda.element, upper)
+        || areOverlapping(yoda.element, lower);
+    }
+  });
+  return collided;
 }
 
 function FlappyYoda() {
-  let pontos = 0
+  let points = 0;
 
-  const areaDoJogo = document.querySelector('[wm-flappy]')
-  const altura = areaDoJogo.clientHeight
-  const largura = areaDoJogo.clientWidth
-  
+  const gameArea = document.querySelector('[wm-flappy]');
+  const height = gameArea.clientHeight;
+  const width = gameArea.clientWidth;
 
-  const progresso = new Progresso()
-  
-  
-  const barreiras = new Barreiras(altura, largura, 200, 400,
-    () => progresso.atualizarPontos(++pontos))
-    
-  const yoda = new Yoda(altura)
-  areaDoJogo.appendChild(progresso.elemento)
-  areaDoJogo.appendChild(yoda.elemento)
-  barreiras.pares.forEach(par => areaDoJogo.appendChild(par.elemento))
+  const progress = new Progress();
 
+  const barriers = new Barriers(height, width, 200, 400,
+    () => progress.updatePoints(++points));
 
-  const temporizador  = setInterval(() => {
-    barreiras.animar()
-    yoda.animar()
+  const yoda = new Yoda(height);
+  gameArea.appendChild(progress.element);
+  gameArea.appendChild(yoda.element);
+  barriers.pairs.forEach(pair => gameArea.appendChild(pair.element));
 
-    if (colidiu(yoda, barreiras)) {
-      clearInterval(temporizador)
+  const timer = setInterval(() => {
+    barriers.animate();
+    yoda.animate();
+
+    if (collided(yoda, barriers)) {
+      clearInterval(timer);
     }
-
-  }, 20)
-    
+  }, 20);
 }
-new FlappyYoda().start
+new FlappyYoda().start;
