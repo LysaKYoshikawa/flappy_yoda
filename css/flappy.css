@@ -1,30 +1,98 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'Pixel';
-  src: url('/fonts/VT323-Regular.ttf');
+  font-family: "Audiowide", sans-serif;
+  color: aliceblue;
+  background-color: rgb(1, 36, 71);
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin-right: 50%;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.bubbles {
+  position: absolute;
+  display: flex;
+}
+
+.bubbles span {
+  width: 30px;
+  height: 30px;
+  background: #f5bd05;
+  margin: 0 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 10px #f5bd0544, 0 0 50px #f5bd05, 0 0 100px #f5bd05;
+  animation: animate calc(150s / var(--i)) linear infinite;
+  overflow: hidden;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(100vh) scale(0);
+  }
+  100% {
+    transform: translateY(-10vh) scale(1);
+  }
+}
+
+.bubbles span:nth-of-type(even) {
+  background: #2dc3ff;
+  box-shadow: 0 0 0 10px #2dc3ff44, 0 0 50px #2dc3ff, 0 0 100px #2dc3ff;
+}
+
+.titleYoda {
+  position: absolute;
+  margin-top: 30px;
+  margin-right: 60%;
+  font-family: Audiowide;
+  color: aliceblue;
+  top: 0;
+}
+
+.updateBtn {
+  position: absolute;
+  top: 0;
+  margin: 15px;
+  height: 50px;
+  width: 120px;
+  border-radius: 20cm;
+  margin-top: 25px;
+  font-family: Audiowide;
+  color: aliceblue;
+  background-color: #639301;
+  border-color: aliceblue;
 }
 
 [wm-flappy] {
+  display: flex;
   position: relative;
   border: 5px solid dodgerblue;
   height: 700px;
   width: 1200px;
   margin: 15px;
+  margin-top: 100px;
   background-color: deepskyblue;
   overflow: hidden;
 }
 
 .baby-yoda {
   position: absolute;
-  width: 60px;
+  width: 50px;
   left: calc(50% - 30px);
-  bottom: 50%;
 }
 
-.par-de-barreiras {
+.pair-of-barriers {
   position: absolute;
   top: 0;
   height: 100%;
@@ -33,20 +101,20 @@ body {
   justify-content: space-between;
 }
 
-.barreira {
+.barrier {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.barreira .borda {
+.barrier .border {
   height: 30px;
   width: 130px;
   background: linear-gradient(90deg, #639301, #A5E82E);
   border: 2px solid #000;
 }
 
-.barreira .corpo {
+.barrier .body {
   height: 40px;
   width: 110px;
   background: linear-gradient(90deg, #639301, #A5E82E);
@@ -54,11 +122,11 @@ body {
   border-right: 2px solid #000;
 }
 
-.progresso {
+.progress {
   position: absolute;
   top: 10px;
   right: 10px;
-  font-family: Pixel;
+  font-family: Audiowide;
   font-size: 70px;
   z-index: 100;
 }
