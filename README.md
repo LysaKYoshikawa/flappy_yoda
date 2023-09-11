@@ -41,7 +41,7 @@ Display flex and Position were concepts that required hours of study for me to p
 # :pushpin: How to run the project
 
   - Clone the repository
-  $ git clone <https://github.com/LysaKYoshikawa/snakegame>
+  $ git clone <https://github.com/LysaKYoshikawa/flappy_yoda>
   
   - Text editor
   It is desirable to have a text editor like VSC
